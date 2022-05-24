@@ -1,0 +1,42 @@
+basic
+    C0CAAD
+    9DA9A0
+    654C4F
+    B26E63
+    CEC075
+
+body
+{
+    background-color: #D4DF9E;
+}
+
+.sidenav
+{
+    background-color: #12100E;
+}
+
+aside
+{
+    background-color: #30321C;
+    color:  #D4DF9E;
+}
+
+.sidenav a
+{
+    color: #D4DF9E;
+}
+
+.sidenav a:hover
+{
+    color: #D4DF9E;
+}
+
+#title
+{
+    color: #6B654B;
+}
+
+#side-h
+{
+    color: #6B654B;
+}

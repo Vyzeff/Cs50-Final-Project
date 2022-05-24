@@ -1,0 +1,60 @@
+.container-fluid
+{
+    padding: 0px;
+}
+
+body
+{
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+}
+
+.sidenav
+{
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 200px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+    box-shadow: 0.5rem 0.5rem 1rem rgb(0 0 0 / 20%);
+}
+
+aside
+{
+    margin-top: 0px;
+    padding: 25px;
+    margin-left: 200px;
+}
+
+main
+{
+    margin-left: 200px;
+    padding: 16px;
+}
+
+.sidenav a
+{
+    padding: 6px 8px 6px 16px;
+    color: #D4DF9E;
+    text-decoration: none;
+}
+
+.sidenav a:hover
+{
+    color: #D4DF9E;
+    text-decoration: underline;
+}
+
+#title
+{
+    padding: 6px 8px 6px 16px;
+    color: #6B654B;
+}
+
+#side-h
+{
+    padding: 6px 8px 6px 16px;
+    color: #6B654B;
+}
