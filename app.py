@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, session, request
 from flask_session import Session
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, ForeignKey
 from sqlalchemy_utils import database_exists, create_database
 
 from datetime import datetime
@@ -18,11 +18,20 @@ app.config["SESSION_TYPE"] = "filesystem"
 # Defines flask session
 Session(app)
 
+#Defines metadata from sqlalchemy
+metaObj = MetaData()
 # Creates engine for SQLAlchemy
-engine = create_engine("sqlite3+pysqlite:///homebook.db", echo=True, future=True)
+engine = create_engine("sqlite+pysqlite:///homebook.db", echo=True, future=True)
 # If Database isn't present, create one
 if not database_exists(engine.url):
     create_database(engine.url)
+    
+#    user_table = Table(
+#    "user_account",
+#    metaObj,
+#   Column('id', Integer, primary_key=True),
+#    Column('name', String(30)),
+#    Column('fullname', String) )
  
 @app.route("/")
 @login_verify
@@ -34,6 +43,30 @@ def index():
     # notas mais recentes
     # uma checklist vai aparecer, a que tem a flag de "importante"
     return render_template("index.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    # will ask for an unused username
+    # will ask for a password ate least 8 digits long, together with 1 number and 1 symbol
+    # maybe implement captcha???
+    # must have invalid when input user already exists in db
+    if request.method == "GET":
+        return render_template("register.html")
+    
+    
+    if not request.form.get("username"):
+        return render_template("register.html", invalid="1")
+    
+    if not request.form.get("password"):
+        return render_template("register.html", invalid="2")
+    
+    if request.form.get("password") != request.form.get("confirm"):
+        return render_template("register.html", invalid=3)
+    with engine.connect() as conn:
+        
+    userLow = 
+    return error("TODO")
+
 @app.route("/login", methods=["GET", "POST"])
 def login(): 
     # will redirect to login page
@@ -41,6 +74,7 @@ def login():
     # check if those things are in db
     # either log in or error popup
     # Forgets user
+    # when user and/or password go wrong, reload with invalid for html if
     return error("TODO")
     session.clear()
     
@@ -50,17 +84,12 @@ def login():
     
     #session["user_id"] = rows[0]["id"]
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    # will ask for an unused username
-    # will ask for a password ate least 8 digits long, together with 1 number and 1 symbol
-    # maybe implement captcha???
-    return error("TODO")
-
 @app.route("/logout")
 def logout():
+    
     session.clear()
-    return error("TODO")
+    
+    return redirect("/")
 
 @app.route("/notebook")
 def notebook():
