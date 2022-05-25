@@ -1,0 +1,30 @@
+{% extends "layout.html"%}
+
+{% block title%}
+    Register
+{% endblock %}
+
+{% block main%}
+    <div>
+        <form action="/register" method="post">
+            {% if invuser %}
+                <div class="alert alert-danger alert-dismissible fade show mx-auto w-auto" role="alert">
+                    <strong>Invalid user!</strong> Please choose another username.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+            <div>
+                <input autofocus class="mx-auto w-auto" id="username" name="username" placeholder="Username" type="text" required pattern="{3,10}[a-z]" title="Username must be lowercase and 3 to 10 characters long. Don't use special characters.">
+            </div>
+            <div>
+                <input class="mx-auto w-auto" id="password" name="password" placeholder="Password" type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" title="Must contain at least one uppercase letter, one simbol, one number and at least 6 characters.">
+            </div>
+            <div>
+                <input class="mx-auto w-auto" id="confirm" name="confirm" placeholder="Password Again" type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" title="Must contain at least one uppercase letter, one simbol, one number and at least 6 characters.">
+            </div>
+            <button class="btn btn-secondary" type="submit">Register</button>
+        </form>
+    </div>
+{% endblock%}
