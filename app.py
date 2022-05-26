@@ -66,7 +66,7 @@ sqlASession = sessionmaker(bind=engine)
 sqlSession = sqlASession()
 
 
-
+success = False
 @app.route("/")
 @login_verify
 def index():
@@ -76,7 +76,7 @@ def index():
     # themes: dark, light, gray, purple, orange and let the user customize the colors and font for themselves
     # notas mais recentes
     # uma checklist vai aparecer, a que tem a flag de "importante"
-    return error("TODO INDEX")
+    return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -96,7 +96,7 @@ def register():
         userLow = request.form.get("username").lower()
         # username is already in use
         if sqlSession.query(Users).filter_by(username=userLow).count() != 0:
-            return render_template("register.html", invalid="1")
+            return render_template("register.html", invalid="4")
         
         # Hash password with sha256 and salt 8
         passHash = generate_password_hash(request.form.get("password"), "sha256", 8)
@@ -106,8 +106,8 @@ def register():
         sqlSession.add(newUser) 
         # commit values to database
         sqlSession.commit()
-        
-        return render_template("login.html", success="yes")
+        success = True
+        return redirect("/login")
 
     return render_template("register.html")
 
@@ -119,18 +119,38 @@ def login():
     # either log in or error popup
     # Forgets user
     # when user and/or password go wrong, reload with invalid for html if
-    return error("TODO")
+    
+    # forgets previous session
     session.clear()
     
-    #if request.method == "GET":
-    #    return render_template("login.html")
     
+    if request.method == "GET":
+        if success == True:
+            success == False
+            return render_template("login.html", success="1")
+        return render_template("login.html")
     
-    #session["user_id"] = rows[0]["id"]
-
+    #these will only happen if the method is post
+    if not request.form.get("username"):
+            return render_template("login.html", invalid="1")
+    if not request.form.get("password"):
+        return render_template("login.html", invalid="1")
+    
+    # query in sql in the user table where username = input in username, grab first
+    # returns a dict
+    userInput = sqlSession.query(Users).filter_by(username=(request.form.get("username").lower())).first()
+    
+    # check if there was a username like that and if the password is correct by the hash
+    if userInput == None or not check_password_hash(userInput.hash, request.form.get("password")):
+        return render_template("login.html", invalid="1")
+    # remember the user id
+    session["user_id"] = userInput.id
+    
+    return redirect("/")
 @app.route("/logout")
 def logout():
     
+    # forgets user id.
     session.clear()
     
     return redirect("/")
@@ -140,7 +160,7 @@ def notebook():
     # will let the user take notes in separate blocks which can be arranged
     # will show all notes
     # notas vao ter titulo, data e corpo
-    return error("TODO")
+    return error("TODO, NOTEBOOK")
 
 @app.route("/clock")
 def clocks():
@@ -148,7 +168,7 @@ def clocks():
     # eh possivel escolher relogios de outras regioes
     # criar alarmes e timers
     # multiplos relogios ao mesmo tempo
-    return error("TODO")
+    return error("TODO, CLOCK")
 
 @app.route("/checklist")
 def checklists():
@@ -156,7 +176,7 @@ def checklists():
     # vai ser possivel criar uma ou mais checklists
     # uma delas pode ser dada como "importante" e vai aparecer na index
     # da mesma forma do notebook, elas podem ser arrastadas por ai
-    return error("TODO")
+    return error("TODO TODOS")
 
 @app.route("/water")
 def waterBottle():
@@ -165,7 +185,7 @@ def waterBottle():
     # botao para tomar agua
     # cicla entre imagens de uma garrafa de agua
     # form com botao para tomar uma medida de agua definida pelo usuario
-    return error("TODO")
+    return error("TODO WATER")
 
 
 '''

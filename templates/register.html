@@ -14,8 +14,10 @@
                     Please choose a valid/another username.
                     {% elif invalid=="2"%} 
                     Please choose a valid password.
-                    {% else %} 
+                    {% elif invalid=="3" %} 
                     Please check if you confirmed your password correctly.
+                    {% else %}
+                    Please choose another username.
                     {% endif %}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
