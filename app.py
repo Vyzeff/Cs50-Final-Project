@@ -1,10 +1,12 @@
+from crypt import methods
 from flask import Flask, render_template, redirect, session, request
 from flask_session import Session
 
 from sqlalchemy import create_engine, Table, Column, Integer, String, ForeignKey, MetaData
 from sqlalchemy_utils import database_exists, create_database
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker, query
 
+from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from helper import login_verify, error
 
@@ -17,6 +19,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 ## Makes so data is saved in files
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite+pysqlite:///homebook.db"
 
 ## Defines flask session
 Session(app)
@@ -28,7 +31,7 @@ metadata_obj = MetaData()
 base = declarative_base()
 
 ## Creates engine for SQLAlchemy
-engine = create_engine("sqlite+pysqlite:///homebook.db", echo=True, future=True)
+engine = create_engine("sqlite+pysqlite:///homebook.db", echo=True, future=True, connect_args={'check_same_thread': False})
 
 ## If Database isn't present, create one
 if not database_exists(engine.url):
@@ -63,28 +66,6 @@ sqlASession = sessionmaker(bind=engine)
 sqlSession = sqlASession()
 
 
-user = Users(username="teste1", hash="123")
-# insert user na database
-sqlSession.add(user)
-# Ainda não foi salvo na database, mas sim na sessao atual, com o commit é feito a mudança
-sqlSession.commit()
-
-
-# select
-query = sqlSession.query(Users).filter_by(username="teste1").first()
-# <User(username=teste1, hash="123")
-for instance in sqlSession.query(Users).order_by(Users.id):
-    print(instance.username, instance.hash)
-
-#updates
-user.username = "teste2"
-sqlSession.commit()
-#delete
-user2 = sqlSession.query(Users).filter_by(username="teste1")
-sqlSession.delete(user2)
-sqlSession.commit
-
-
 
 @app.route("/")
 @login_verify
@@ -95,7 +76,7 @@ def index():
     # themes: dark, light, gray, purple, orange and let the user customize the colors and font for themselves
     # notas mais recentes
     # uma checklist vai aparecer, a que tem a flag de "importante"
-    return render_template("index.html")
+    return error("TODO INDEX")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -103,22 +84,32 @@ def register():
     # will ask for a password ate least 8 digits long, together with 1 number and 1 symbol
     # maybe implement captcha???
     # must have invalid when input user already exists in db
-    if request.method == "GET":
-        return render_template("register.html")
-    
-    
-    if not request.form.get("username"):
-        return render_template("register.html", invalid="1")
-    
-    if not request.form.get("password"):
-        return render_template("register.html", invalid="2")
-    
-    if request.form.get("password") != request.form.get("confirm"):
-        return render_template("register.html", invalid=3)
-    with engine.connect() as conn:
+    if request.method == "POST":
+        if not request.form.get("username"):
+            return render_template("register.html", invalid="1")
+        if not request.form.get("password"):
+            return render_template("register.html", invalid="2")
+        if request.form.get("password") != request.form.get("confirm"):
+            return render_template("register.html", invalid="3")
         
-    userLow = 
-    return error("TODO")
+        # lowercase username for consistensy
+        userLow = request.form.get("username").lower()
+        # username is already in use
+        if sqlSession.query(Users).filter_by(username=userLow).count() != 0:
+            return render_template("register.html", invalid="1")
+        
+        # Hash password with sha256 and salt 8
+        passHash = generate_password_hash(request.form.get("password"), "sha256", 8)
+        
+        # create a session with the input values
+        newUser = Users(username=userLow, hash=passHash)
+        sqlSession.add(newUser) 
+        # commit values to database
+        sqlSession.commit()
+        
+        return render_template("login.html", success="yes")
+
+    return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login(): 

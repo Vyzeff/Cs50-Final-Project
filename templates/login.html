@@ -15,6 +15,14 @@
                     </button>
                 </div>
             {% endif %}
+            {% if success %}
+            <div class="alert alert-warning alert-dismissible fade show mx-auto w-auto" role="alert">
+                <strong>User register was sucessful!</strong> Please login.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
             <div>
                 <input autofocus class="mx-auto w-auto" id="username" name="username" placeholder="Username" type="text" required>
             </div>

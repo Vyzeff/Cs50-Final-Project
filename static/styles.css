@@ -65,6 +65,6 @@ main
 }
 
 input:invalid {
-    border: rgb(255, 46, 46) solid 2px;
+    border: rgb(255, 46, 46) solid 1px;
   }
   

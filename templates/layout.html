@@ -16,31 +16,36 @@
     </head>
     <body>
         <div class="container-fluid">
-            {% if session["user_id"]%}
-                <aside>
-                    <header>
-                            <div>
-                                {% if name %}
-                                    <h1>Welcome {{ name }}</h1>
-                                {% else %}
-                                    <h1>Welcome</h1>
-                                {% endif %}
-                                <h5>This is your Cs50 Homebook</h5>
-                                <h6>Please use it as you see fit</h6>
-                            </div>
-                    </header>
-                </aside>
-                <div class="sidenav">
+            <aside>
+                <header>
+                        <div>
+                            {% if name %}
+                                <h1>Welcome {{ name }}</h1>
+                            {% else %}
+                                <h1>Welcome</h1>
+                            {% endif %}
+                            <h5>This is your Cs50 Homebook</h5>
+                            <h6>Please use it as you see fit</h6>
+                        </div>
+                </header>
+            </aside>
+            <div class="sidenav">
+                {% if  session["user_id"]%}
                     <h2 id="title">Homebook</h2>
                     <div><a href="index.html">Index</a></div>
                     <div><a href="to-do.html">To-Do</a></div>
                     <div><a href="notebook.html">Notebook</a></div>
                     <div><a href="clock.html">Clock</a></div>
                     <div><a href="water.html">Daily Water</a></div>
-                </div>
-            {% endif %}
+                {% else %}
+                    <p class="">Please, log in to access more resources</p>
+                    <a href="register.html">Register</a>
+                {% endif %}
+            </div>
             <main>
-                {% block main %}{% endblock %}
+                {% block main %}
+                
+                {% endblock %}
             </main>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>

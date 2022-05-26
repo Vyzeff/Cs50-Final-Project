@@ -1,10 +1,10 @@
-basic
+/*basic
     C0CAAD
     9DA9A0
     654C4F
     B26E63
     CEC075
-
+*/
 body
 {
     background-color: #D4DF9E;
@@ -23,12 +23,12 @@ aside
 
 .sidenav a
 {
-    color: #D4DF9E;
+    color: #dbf558;
 }
 
 .sidenav a:hover
 {
-    color: #D4DF9E;
+    color: #dbf558;
 }
 
 #title
@@ -39,4 +39,9 @@ aside
 #side-h
 {
     color: #6B654B;
+}
+.sidenav p 
+{
+    padding: 6px 8px 6px 16px;
+    color: #D4DF9E;
 }
