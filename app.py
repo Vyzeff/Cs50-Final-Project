@@ -76,7 +76,7 @@ query = sqlSession.query(Users).filter_by(username="teste1").first()
 for instance in sqlSession.query(Users).order_by(Users.id):
     print(instance.username, instance.hash)
 
-#update
+#updates
 user.username = "teste2"
 sqlSession.commit()
 #delete
