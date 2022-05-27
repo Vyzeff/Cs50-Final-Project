@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block main %}
-    <p class="errormessage">Sorry, something went wrong</p>
-    <img alt="Confused jinx from League of Legends" class="border img-fluid mx-auto" src="https://cdn.discordapp.com/attachments/773334201801375765/979002308207710268/IMG_20220215_121716.jpg" title="Sorry, something went wrong">
-    <p class="errormessage"> {{ message }}, {{ code }}</p>
+    <div class="center">
+        <p class="errormessage">Sorry, something went wrong</p>
+        <img alt="Confused jinx from League of Legends" class="border img-fluid mx-auto" src="https://cdn.discordapp.com/attachments/773334201801375765/979002308207710268/IMG_20220215_121716.jpg" title="Sorry, something went wrong">
+        <p class="errormessage"> <strong>{{ message }}</strong>, {{ code }}</p>
+    </div>
 {% endblock %}

@@ -1,8 +1,9 @@
 from crypt import methods
+from xmlrpc.client import DateTime
 from flask import Flask, render_template, redirect, session, request
 from flask_session import Session
 
-from sqlalchemy import create_engine, Table, Column, Integer, String, ForeignKey, MetaData
+from sqlalchemy import create_engine, DateTime, Column, Integer, String, ForeignKey, MetaData, false
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.orm import declarative_base, sessionmaker, query
 
@@ -54,6 +55,7 @@ class Todo(base):
     id = Column(Integer, primary_key=True, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     todo_text = Column(String, nullable=False)
+    date = Column(DateTime, nullable=False)
     is_complete = Column(Integer, nullable=False)
     
     def __repr__(self):
@@ -170,12 +172,21 @@ def clocks():
     # multiplos relogios ao mesmo tempo
     return error("TODO, CLOCK")
 
-@app.route("/checklist")
+@app.route("/todo", methods=["GET", "PUT", "POST", "DELETE"])
 def checklists():
     # pagina de checklists.
     # vai ser possivel criar uma ou mais checklists
     # uma delas pode ser dada como "importante" e vai aparecer na index
     # da mesma forma do notebook, elas podem ser arrastadas por ai
+    userTodos = sqlSession.query(Todo).filter_by(user_id=session["user_id"])
+    
+    if request.method == "GET":
+        if sqlSession.query(Todo).filter_by(user_id=session["user_id"]).first() == None:
+            return render_template("todo.html", notodo="0")
+        return render_template("todo.html", userTodos=userTodos)
+    
+    if request.method == "POST":
+        return error("TODO")
     return error("TODO TODOS")
 
 @app.route("/water")

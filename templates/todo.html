@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    To-do Lists
+{% endblock %}
+
+{% block main %}
+    {% if notodo %}
+        <div class="center">
+            <form action="/todo" method="post">
+            <p>Sorry, it appears you do not have any checklists yet</p>
+            <p>Would like to create one?</p>
+            <button class="btn btn-secondary" type="submit">Create</button>
+            </form>
+        </div>
+    {% else %}
+        <div class="center d-grid gap-2 d-md-block">
+            <form action="/todo" method="post">
+            <button class="btn btn-secondary .mx-auto" type="submit">Create a Todo List</button>
+            </form>
+        </div>
+    {% endif %}
+    {% for x in userTodos if x["id"] != N/A %}
+    <div class="todo">
+            <form>
+                {% if x["isComplete"] == "1" %}
+                    <div class="iscomplete">
+                        <label class="container">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <input autocomplete="off" class="form-control mx-auto w-auto" id="todo" name="todo" type="text" required><s>{{ x["todo_text"] }}</s>
+                {% else %}
+                    <div class="iscomplete">
+                        <label class="container">
+                        <input type="checkbox">
+                        <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <input autocomplete="off" class="form-control mx-auto w-auto" id="todo" name="todo" type="text" required>{{ x["todo_text"] }}
+                {% endif %}
+            </form>
+    </div>
+    {% endfor %}
+{% endblock %}
