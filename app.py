@@ -54,6 +54,7 @@ class Todo(base):
     
     id = Column(Integer, primary_key=True, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    todo_title = Column(String, nullable=False)
     todo_text = Column(String, nullable=False)
     date = Column(DateTime, nullable=False)
     is_complete = Column(Integer, nullable=False)
@@ -186,7 +187,7 @@ def checklists():
         return render_template("todo.html", userTodos=userTodos)
     
     if request.method == "POST":
-        return error("TODO")
+        return error("TODO BUTTON")
     return error("TODO TODOS")
 
 @app.route("/water")
