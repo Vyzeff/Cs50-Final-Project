@@ -54,9 +54,8 @@ class Todo(base):
     
     id = Column(Integer, primary_key=True, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    todo_title = Column(String, nullable=False)
     todo_text = Column(String, nullable=False)
-    date = Column(DateTime, nullable=False)
+    date = Column(String, nullable=False)
     is_complete = Column(Integer, nullable=False)
     
     def __repr__(self):
@@ -182,12 +181,25 @@ def checklists():
     userTodos = sqlSession.query(Todo).filter_by(user_id=session["user_id"])
     
     if request.method == "GET":
-        if sqlSession.query(Todo).filter_by(user_id=session["user_id"]).first() == None:
+        if sqlSession.query(Todo).filter_by(user_id="3").first() == None:
             return render_template("todo.html", notodo="0")
-        return render_template("todo.html", userTodos=userTodos)
+        return render_template("todo.html", userTodos=userTodos, notodo="1")
     
     if request.method == "POST":
-        return error("TODO BUTTON")
+        formInput = request.form.get("todoInput")
+        if formInput == None:
+            return error("Please input valid text.")
+        
+        # create a session with the input values
+        nowDate = str(datetime.now())
+        newTodo = Todo(user_id=session["user_id"], todo_text=formInput, date=nowDate, is_complete=0)
+        sqlSession.add(newTodo) 
+        # commit values to database
+        sqlSession.commit()
+        return render_template("todo.html", userTodos=userTodos, notodo="1")
+        
+        
+        
     return error("TODO TODOS")
 
 @app.route("/water")

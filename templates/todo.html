@@ -5,42 +5,32 @@
 {% endblock %}
 
 {% block main %}
-    {% if notodo %}
+    {% if notodo == "0" %}
             <div class="center" id="removable">
             <p>Sorry, it appears you do not have any checklists yet</p>
             <p>Would like to create one?</p>
             <button id="firstCreate" class="btn btn-secondary" type="button" onclick="firstCreate()">Create</button>
             </div>
     {% else %}
-        <div class="center d-grid gap-2 d-md-block">
-            <button class="btn btn-secondary .mx-auto" type="button" onclick="todoCreate()">Create a Todo List</button>
+        <div class="center mx-auto w-auto" id="removable">
+            <button id="firstCreate" class="btn btn-secondary" type="button" onclick="firstCreate()">Load Todos</button>
         </div>
     {% endif %}
     <div id="first"> 
         <div id="anchor" class="d-flex align-items-start">
-        {% for x in userTodos if x["id"] != N/A %}
-        <div class="todo">
+        <div id="2removable">
+        {% for x in userTodos if x["id"] != "N/A" %}
                 <form>
+                    <ul>
                     {% if x["isComplete"] == "1" %}
-                        <div class="iscomplete">
-                            <label class="container">
-                            <input type="checkbox" checked>
-                            <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <input autocomplete="off" class="form-control mx-auto w-auto" id="todo" name="todo" type="text" required><s>{{ x["todo_text"] }}</s>
+                    <li><s>{{ x["todo_text"] }}</s></li>
                     {% else %}
-                        <div class="iscomplete">
-                            <label class="container">
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <input autocomplete="off" class="form-control mx-auto w-auto" id="todo" name="todo" type="text" required>{{ x["todo_text"] }}
+                    <li>{{ x["todo_text"] }}</li>
                     {% endif %}
+                    </ul>
                 </form>
-            </div>
         {% endfor %}
+        </div>
         </div>
     </div>
 

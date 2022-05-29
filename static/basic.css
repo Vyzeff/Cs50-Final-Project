@@ -45,3 +45,26 @@ aside
     padding: 6px 8px 6px 16px;
     color: #D4DF9E;
 }
+
+#todoForm {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#todoList {
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.todoElement {
+
+    border-top: 1px solid #e5e5e5;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+}
