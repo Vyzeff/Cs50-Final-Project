@@ -76,10 +76,10 @@ function todoChanges() {
 
     for (let y of elements) {
         y.addEventListener('click', function () {y.classList.toggle("completed");})
-        y.addEventListener('contextmenu',  (e) => {
+        y.addEventListener('contextmenu',  function (e) {
             e.preventDefault()
 
-            let id = this.id
+            let id = this.dataset.id
             var deleteTodo = { 
                 input: id
             }
@@ -90,7 +90,7 @@ function todoChanges() {
                   },
                 body: JSON.stringify(deleteTodo)
             }).then (() => {
-                    alert("Your todo was deleted.")
+                    alert("Your todo was deleted." + id)
             })
     })}}
     /*todoElement.addEventListener("contextmenu", (e) => {

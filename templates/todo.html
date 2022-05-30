@@ -26,9 +26,9 @@
         {% for x in userTodos if x["id"] != "N/A" %}
                 <form>
                     {% if x["isComplete"] == "1" %}
-                    <li id="{{ x["id"] }}"class="todoElement completed"><s>{{ x["todo_text"] }}</s></li>
+                    <li data-id="{{ x["id"] }}"class="todoElement completed"><s>{{ x["todo_text"] }}</s></li>
                     {% else %}
-                    <li id="{{ x["id"] }}" class="todoElement">{{ x["todo_text"] }}</li>
+                    <li data-id="{{ x["id"] }}" class="todoElement">{{ x["todo_text"] }}</li>
                     {% endif %}
                 </form>
         {% endfor %}
