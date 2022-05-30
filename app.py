@@ -1,11 +1,9 @@
-from crypt import methods
-from xmlrpc.client import DateTime
-from flask import Flask, render_template, redirect, session, request
+from flask import Flask, render_template, redirect, session, request, jsonify, make_response
 from flask_session import Session
 
-from sqlalchemy import create_engine, DateTime, Column, Integer, String, ForeignKey, MetaData, false
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, MetaData
 from sqlalchemy_utils import database_exists, create_database
-from sqlalchemy.orm import declarative_base, sessionmaker, query
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
@@ -172,7 +170,7 @@ def clocks():
     # multiplos relogios ao mesmo tempo
     return error("TODO, CLOCK")
 
-@app.route("/todo", methods=["GET", "PUT", "POST", "DELETE"])
+@app.route("/todo", methods=["GET", "POST", "PUT"])
 def checklists():
     # pagina de checklists.
     # vai ser possivel criar uma ou mais checklists
@@ -186,21 +184,39 @@ def checklists():
         return render_template("todo.html", userTodos=userTodos, notodo="1")
     
     if request.method == "POST":
-        formInput = request.form.get("todoInput")
-        if formInput == None:
-            return error("Please input valid text.")
-        
-        # create a session with the input values
-        nowDate = str(datetime.now())
-        newTodo = Todo(user_id=session["user_id"], todo_text=formInput, date=nowDate, is_complete=0)
-        sqlSession.add(newTodo) 
-        # commit values to database
-        sqlSession.commit()
-        return render_template("todo.html", userTodos=userTodos, notodo="1")
+        return redirect("/todos")
+    
+    if request.method == "PUT":
+        deleteTodo = request.get_json()
+        if deleteTodo != None or deleteTodo != 400:
+            return error("deu bom?")
+
+
         
         
         
     return error("TODO TODOS")
+
+@app.route("/todos", methods=["POST", "GET"])
+def todos():
+    
+    if request.method == "GET":
+        return render_template("todos.html")
+
+    
+    if request.method == "POST":
+        formInput = request.get_json()  
+         
+        if formInput == None or formInput == "400":
+            return error("Please input valid text.")
+    # create a session with the input values
+        nowDate = str(datetime.now())
+        newTodo = Todo(user_id=session["user_id"], todo_text=formInput["input"], date=nowDate, is_complete=0)
+        sqlSession.add(newTodo) 
+        # commit values to database
+        sqlSession.commit()
+        return make_response(jsonify({"message":"to-do added"}))
+                
 
 @app.route("/water")
 def waterBottle():

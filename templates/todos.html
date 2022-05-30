@@ -1,0 +1,17 @@
+{% extends "layout.html"%}
+
+{% block title%}
+    Create Todos
+{% endblock %}
+
+{% block main%}
+    <form id="todoForm"action="/todos" method="POST">
+        <input  name="todoInput" placeholder="Your To-Do" id="todoInput"class="mx-auto w-auto center" type="text" autocomplete="off">
+        <ul class="mx-auto w-auto center" id="todoList"></ul>
+    </form>
+
+    <form action="/todo" method="GET">
+        <small>Added todos.</small>
+        <button class="btn btn-secondary normal-button center" type="submit">Return</button>
+    </form>
+{% endblock%}
