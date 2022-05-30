@@ -33,12 +33,12 @@ function firstCreate() {
     newUl.appendChild(newSmall);
 
     const form = document.getElementById("todoForm");
-    const input = document.getElementById("todoInput");
 
     form.addEventListener("submit", todoChange())
 }
 
 function todoChange() {
+    const input = document.getElementById("todoInput");
     const todoTxt = input.value;
 
     if (todoTxt) {
