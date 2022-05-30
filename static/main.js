@@ -58,3 +58,35 @@ function firstCreate() {
     
 
 }
+
+let switches = document.getElementsByClassName("switch");
+let style = localStorage.getItem('style');
+
+if (style == null) {
+    setTheme('basic');
+  } else {
+    setTheme(style);
+  }
+
+
+for (let x of switches) {
+    x.addEventListener('click', function () {
+        let theme = this.dataset.theme;
+        setTheme(theme);
+    });
+  }
+  
+  function setTheme(theme) {
+    if (theme == 'basic') {
+      document.getElementById('switcher-id').href = './static/basic.css';
+    } else if (theme == 'cold') {
+      document.getElementById('switcher-id').href = './static/cold.css';
+    } else if (theme == 'contrast') {
+      document.getElementById('switcher-id').href = './static/contrast.css';
+    } else if (theme == 'sakura') {
+        document.getElementById('switcher-id').href = './static/sakura.css';
+    } else if (theme == 'lofi') {
+      document.getElementById('switcher-id').href = './static/lofi.css';
+    }
+    localStorage.setItem('style', theme);
+}

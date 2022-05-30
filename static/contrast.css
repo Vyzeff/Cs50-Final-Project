@@ -5,3 +5,82 @@
     F9C22E
     53B3CB
 */
+
+body
+{
+    background-color: #F15946;
+    color: #0C090D;
+}
+
+.sidenav
+{
+    background-color: #0C090D;
+}
+
+aside
+{
+    background-color: #E01A4F;
+    color:  #0C090D;
+}
+
+.sidenav a
+{
+    color: #F9C22E;
+}
+
+.sidenav a:hover
+{
+    color: #F9C22E;
+}
+
+#title
+{
+    color: #fddc81;
+}
+
+#side-h
+{
+    color: #F9C22E;
+}
+.sidenav p 
+{
+    color: #F9C22E;
+}
+
+#todoList {
+    background-color: #fff;
+
+}
+
+.todoElement {
+
+    border-top: 1px solid #95B2B0;
+}
+
+input:invalid 
+{
+    border: rgb(255, 46, 46) solid 1px;
+}
+
+.iscomplete 
+{
+    border: #2196F3;
+}
+
+
+.completed {
+    color: rgb(177, 172, 172);
+}
+
+.btn-secondary {
+    color: #F15946;
+    background: #0C090D;
+    border-color: #0C090D;
+}
+
+.btn:hover {
+    color: #F15946;
+    background-color: #2a222c;
+    border-color: #2a222c;
+
+}

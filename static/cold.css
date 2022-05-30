@@ -5,3 +5,82 @@
     95B2B0
     C6EBBE
 */
+
+body
+{
+    background-color: #476bad;
+    color: #323353;
+}
+
+.sidenav
+{
+    background-color: #262852;
+}
+
+aside
+{
+    background-color: #95e2dd;
+    color:  #262852;
+}
+
+.sidenav a
+{
+    color: #95e2dd;
+}
+
+.sidenav a:hover
+{
+    color: #95e2dd;
+}
+
+#title
+{
+    color: #00ffea;
+}
+
+#side-h
+{
+    color: #95e2dd;
+}
+.sidenav p 
+{
+    color: #95e2dd;
+}
+
+#todoList {
+    background-color: #fff;
+
+}
+
+.todoElement {
+
+    border-top: 1px solid #95B2B0;
+}
+
+input:invalid 
+{
+    border: rgb(255, 46, 46) solid 1px;
+}
+
+.iscomplete 
+{
+    border: #2196F3;
+}
+
+
+.completed {
+    color: rgb(177, 172, 172);
+}
+
+.btn-secondary {
+    color: #fff;
+    background: #95B2B0;
+    border-color: #95B2B0;
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: #748f8d;
+    border-color: #748f8d;
+
+}

@@ -1,9 +1,9 @@
 /*basic
-    C0CAAD
-    9DA9A0
-    654C4F
-    B26E63
-    CEC075
+    #C0CAAD
+    #9DA9A0
+    #654C4F
+    #B26E63
+    #CEC075
 */
 body
 {
@@ -42,29 +42,67 @@ aside
 }
 .sidenav p 
 {
-    padding: 6px 8px 6px 16px;
     color: #D4DF9E;
-}
-
-#todoForm {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 100%;
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #todoList {
     background-color: #fff;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
+
 }
 
 .todoElement {
 
     border-top: 1px solid #e5e5e5;
-    cursor: pointer;
-    font-size: 1.5rem;
-    padding: 1rem 2rem;
+}
+
+
+.sidenav a
+{
+    color: #D4DF9E;
+}
+
+.sidenav a:hover
+{
+    color: #D4DF9E;
+}
+
+#title
+{
+    color: #6B654B;
+}
+
+#side-h
+{
+    color: #6B654B;
+}
+
+input:invalid 
+{
+    border: rgb(255, 46, 46) solid 1px;
+}
+
+.iscomplete 
+{
+    border: #2196F3;
+}
+
+
+.completed {
+    color: rgb(177, 172, 172);
+}
+
+.btn-secondary {
+    color: #fff;
+    background: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary :hover {
+    color: #fff;
+    background-color: #5c636a;
+}
+
+.switch 
+{
+    border: 2px solid rgb(54, 51, 51);
 }

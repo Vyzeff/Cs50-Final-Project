@@ -1,6 +1,85 @@
-sakura
+/*sakura
     EF798A
     F7A9A8
     613F75
     E5C3D1
     988B8E
+*/
+
+body
+{
+    background-color: #EF798A;
+    color: #613F75;
+}
+
+.sidenav
+{
+    background-color: #E5C3D1;
+}
+
+aside
+{
+    background-color: #613F75;
+    color:  #EF798A;
+}
+
+.sidenav a
+{
+    color: #613F75;
+}
+
+.sidenav a:hover
+{
+    color: #613F75;
+}
+
+#title
+{
+    color: #43135f;
+}
+
+#side-h
+{
+    color: #613F75;
+}
+.sidenav p 
+{
+    color: #613F75;
+}
+
+#todoList {
+    background-color: #fff;
+
+}
+
+.todoElement {
+
+    border-top: 1px solid #95B2B0;
+}
+
+input:invalid 
+{
+    border: rgb(255, 46, 46) solid 1px;
+}
+
+.iscomplete 
+{
+    border: #2196F3;
+}
+
+
+.completed {
+    color: rgb(177, 172, 172);
+}
+
+.btn-secondary {
+    color: #EF798A;
+    background: #613F75;
+    border-color: #613F75;
+}
+
+.btn:hover {
+    color: #EF798A;
+    background-color: #561b79;
+    border-color: #561b79;
+}

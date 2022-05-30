@@ -10,7 +10,7 @@
         <link href="/static/styles.css" rel="stylesheet">
         <link href="/static/favicon.ico" rel="icon">
         <!-- theme -->
-        <link rel="stylesheet" id="switch" href="/static/basic.css">
+        <link rel="stylesheet" id="switcher-id" href="/static/basic.css">
 
         <title>Cs50 Homebook {% block title %}{% endblock %}</title>
     </head>
@@ -38,6 +38,14 @@
                     <div><a href="/clock">Clock</a></div>
                     <div><a href="/water">Daily Water</a></div>
                     <div><a href="/logout">Logout</a></div>
+                    <div class="theme-switches">
+                        <div data-theme="basic" class="switch" id="switch-1"></div>
+                        <div data-theme="cold" class="switch" id="switch-2"></div>
+                        <div data-theme="contrast" class="switch" id="switch-3"></div>
+                        <div data-theme="lofi" class="switch" id="switch-4"></div>
+                        <div data-theme="sakura" class="switch" id="switch-5"></div>
+
+                    </div>
                 {% else %}
                     <p class="">Please, log in to access more resources</p>
                     <a href="/login">Login</a>

@@ -1,6 +1,86 @@
-lofi
+/*lofi
     CEEC97
     F4B393
     FC60A8
     7A28CB
     494368
+*/
+
+
+body
+{
+    background-color: #8646c5;
+    color: #fd83bc;
+}
+
+.sidenav
+{
+    background-color: #F4B393;
+}
+
+aside
+{
+    background-color: #494368;
+    color:  #fd83bc;
+}
+
+.sidenav a
+{
+    color: #494368;
+}
+
+.sidenav a:hover
+{
+    color: #494368;
+}
+
+#title
+{
+    color: #6a638b;
+}
+
+#side-h
+{
+    color: #6a638b;
+}
+.sidenav p 
+{
+    color: #6a638b;
+}
+
+#todoList {
+    background-color: #fff;
+
+}
+
+.todoElement {
+
+    border-top: 1px solid #95B2B0;
+}
+
+input:invalid 
+{
+    border: rgb(255, 46, 46) solid 1px;
+}
+
+.iscomplete 
+{
+    border: #2196F3;
+}
+
+
+.completed {
+    color: rgb(177, 172, 172);
+}
+
+.btn-secondary {
+    color: #fd83bc;
+    background: #494368;
+    border-color: #494368;
+}
+
+.btn:hover {
+    color: #fd83bc;
+    background-color: #3a354e;
+    border-color: #3a354e;
+}
