@@ -29,35 +29,37 @@ function firstCreate() {
 
     newSmall = document.createElement("small")
     newSmall.innerText = "Left Click to complete, Right click to delete"
+    newSmall.classList.add("mx-auto", "w-auto", "center");
     newUl.appendChild(newSmall);
 
     const form = document.getElementById("todoForm");
     const input = document.getElementById("todoInput");
 
-    form.addEventListener("submit", (e) => {
-        //(e).preventDefault()
-        const todoTxt = input.value;
-    
-        if (todoTxt) {
-            const todoElement = document.createElement("li")
-            todoElement.classList.add("center", "todoElement")
-            todoElement.innerText = todoTxt
-            document.getElementById("todoList").appendChild(todoElement)
-
-            todoElement.addEventListener('click', () => {
-                todoElement.classList.toggle("completed")
-            })
-
-            todoElement.addEventListener("contextmenu", (e) => {
-                e.preventDefault()
-
-                todoElement.remove()
-            })
-        } 
-    })
-    
-
+    form.addEventListener("submit", todoChange())
 }
+
+function todoChange() {
+    const todoTxt = input.value;
+
+    if (todoTxt) {
+        const todoElement = document.createElement("li")
+        todoElement.classList.add("center", "todoElement")
+        todoElement.innerText = todoTxt
+        document.getElementById("todoList").appendChild(todoElement)
+
+        todoElement.addEventListener('click', () => {
+            todoElement.classList.toggle("completed")
+        })
+
+        todoElement.addEventListener("contextmenu", (e) => {
+            e.preventDefault()
+
+            todoElement.remove()
+        })
+    } 
+}
+
+
 
 let switches = document.getElementsByClassName("switch");
 let style = localStorage.getItem('style');

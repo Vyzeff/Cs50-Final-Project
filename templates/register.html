@@ -6,7 +6,7 @@
 
 {% block main%}
     <div>
-        <form action="/register" method="post">
+        <form action="/register" method="post" class="center">
             {% if invalid %}
                 <div class="alert alert-danger alert-dismissible fade show mx-auto w-auto" role="alert">
                     <strong>Invalid!</strong>
@@ -25,15 +25,15 @@
                 </div>
             {% endif %}
             <div>
-                <input autofocus class="mx-auto w-auto" id="username" name="username" placeholder="Username" type="text" required pattern="{3,10}[a-z]" title="Username must be lowercase and 3 to 10 characters long. Don't use special characters.">
+                <input autofocus class="mx-auto w-auto center" id="username" name="username" placeholder="Username" type="text" required pattern="{3,10}[a-z]" title="Username must be lowercase and 3 to 10 characters long. Don't use special characters.">
             </div>
             <div>
-                <input class="mx-auto w-auto" id="password" name="password" placeholder="Password" type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" title="Must contain at least one uppercase letter, one simbol, one number and at least 6 characters.">
+                <input class="mx-auto w-auto center" id="password" name="password" placeholder="Password" type="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}" title="Must contain at least one uppercase letter, one simbol, one number and at least 6 characters.">
             </div>
             <div>
-                <input class="mx-auto w-auto" id="confirm" name="confirm" placeholder="Password Again" type="password" required>
+                <input class="mx-auto w-auto center" id="confirm" name="confirm" placeholder="Password Again" type="password" required>
             </div>
-            <button class="btn btn-secondary normal-button" type="submit">Register</button>
+            <button class="btn btn-secondary normal-button center" type="submit">Register</button>
         </form>
     </div>
 {% endblock%}
