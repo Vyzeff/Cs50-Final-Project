@@ -91,6 +91,7 @@ function todoChanges() {
                 body: JSON.stringify(deleteTodo)
             }).then (() => {
                     alert("Your todo was deleted." + id)
+                    document.getElementById(id).remove()
             })
     })}}
     /*todoElement.addEventListener("contextmenu", (e) => {
