@@ -10,13 +10,13 @@
             <div class="center" id="removable">
             <p>Sorry, it appears you do not have any checklists yet</p>
             <p>Would like to create one?</p>
-            <button id="firstCreate" class="btn btn-secondary" type="submit">Create</button>
+            <button id="firstCreate" class="btn btn-secondary center" type="submit">Create</button>
             </div>
         </form>
     {% else %}
     <form action="/todo" method="POST">
         <div class="center mx-auto w-auto" id="removable">
-            <button id="firstCreate" class="btn btn-secondary" type="submit">Create Todos</button>
+            <button id="firstCreate" class="btn btn-secondary center" type="submit">Create Todos</button>
         </div>
     </form>
     {% endif %}

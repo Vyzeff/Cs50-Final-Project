@@ -137,3 +137,16 @@ main
     width: fit-content;
     padding: 0.5rem 1rem;
 }
+
+ul#todoList {
+    list-style: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.todoElement {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}

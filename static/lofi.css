@@ -55,7 +55,7 @@ aside
 
 .todoElement {
 
-    border-top: 1px solid #95B2B0;
+    border-top: 1px solid #3a354e;
 }
 
 input:invalid 
@@ -70,7 +70,7 @@ input:invalid
 
 
 .completed {
-    color: rgb(177, 172, 172);
+    color: #3a354e;
 }
 
 .btn-secondary {
@@ -83,4 +83,16 @@ input:invalid
     color: #fd83bc;
     background-color: #3a354e;
     border-color: #3a354e;
+}
+
+::placeholder {
+    color: #8646c5;
+}
+
+ul#todoList {
+    background: #8646c5;
+}
+
+.todoElement {
+    background: #8646c5;
 }

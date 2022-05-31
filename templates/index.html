@@ -8,8 +8,8 @@
     <div>
         <form action="/login" method="post">
             {% if session["user_id"] %}
-                <p>Teste, login feito com sucesso.</p>
+                <p>Login successful.</p>
             {% else %}
-                <p>Por favor faça seu login para acessar o resto da página.</p>
+                <p>Please login to access the rest of the website.</p>
             {% endif %}
 {% endblock%}
