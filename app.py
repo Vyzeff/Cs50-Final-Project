@@ -70,20 +70,24 @@ success = False
 @app.route("/")
 @login_verify
 def index():
-    #TODO
-    # Pagina base com a sidebar, temperatura e dia.
-    # Um relogio
-    # themes: dark, light, gray, purple, orange and let the user customize the colors and font for themselves
-    # notas mais recentes
-    # uma checklist vai aparecer, a que tem a flag de "importante"
+    """    
+    TODO
+     Pagina base com a sidebar
+     Um relogio
+     themes: basic, cold, contrast, lofi and sakura 
+     notas mais recentes
+     """
+
     return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    # will ask for an unused username
-    # will ask for a password ate least 8 digits long, together with 1 number and 1 symbol
-    # maybe implement captcha???
-    # must have invalid when input user already exists in db
+    """
+    will ask for an unused username
+    will ask for a password ate least 8 digits long, together with 1 number and 1 symbol
+    maybe implement captcha???
+    must have invalid when input user already exists in db
+    """
     if request.method == "POST":
         if not request.form.get("username"):
             return render_template("register.html", invalid="1")
@@ -107,19 +111,20 @@ def register():
         # commit values to database
         sqlSession.commit()
         success = True
-        return redirect("/login")
+        return render_template("login.html", success=1)
 
     return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login(): 
-    # will redirect to login page
-    # will take a username and password
-    # check if those things are in db
-    # either log in or error popup
-    # Forgets user
-    # when user and/or password go wrong, reload with invalid for html if
-    
+    """    
+    will redirect to login page
+    will take a username and password
+    check if those things are in db
+    either log in or error popup
+    Forgets user
+    when user and/or password go wrong, reload with invalid for html if
+    """
     # forgets previous session
     session.clear()
     
@@ -149,33 +154,42 @@ def login():
     return redirect("/")
 @app.route("/logout")
 def logout():
-    
-    # forgets user id.
+    """
+    forgets user id and 'logs out'
+    """
     session.clear()
     
     return redirect("/")
 
 @app.route("/notebook")
 def notebook():
-    # will let the user take notes in separate blocks which can be arranged
-    # will show all notes
-    # notas vao ter titulo, data e corpo
+    """
+    will let the user take notes in separate blocks which can be arranged
+    will show all notes
+    notas vao ter titulo, data e corpo
+    """
+
     return error("TODO, NOTEBOOK")
 
 @app.route("/clock")
 def clocks():
-    # timers e relogios
-    # eh possivel escolher relogios de outras regioes
-    # criar alarmes e timers
-    # multiplos relogios ao mesmo tempo
+    """
+    timers e relogios
+    eh possivel escolher relogios de outras regioes
+    criar alarmes e timers
+    multiplos relogios ao mesmo tempo
+    """
+
     return error("TODO, CLOCK")
 
 @app.route("/todo", methods=["GET", "POST", "PUT", "DELETE"])
 def checklists():
-    # pagina de checklists.
-    # vai ser possivel criar uma ou mais checklists
-    # uma delas pode ser dada como "importante" e vai aparecer na index
-    # da mesma forma do notebook, elas podem ser arrastadas por ai
+    """
+    pagina de checklists.
+    é nela onde se deleta e faz o update dos todos ja existentes
+    redireciona para outra rota para criar todos
+    """
+   
     userTodos = sqlSession.query(Todo).filter_by(user_id=session["user_id"])
     
     if request.method == "GET":
@@ -207,6 +221,9 @@ def checklists():
 
 @app.route("/todos", methods=["POST", "GET"])
 def todos():
+    """
+    generates todos with fetch from input in javascript
+    """
     
     if request.method == "GET":
         return render_template("todos.html")
@@ -228,27 +245,12 @@ def todos():
 
 @app.route("/water")
 def waterBottle():
-    # contador de agua
-    # meta diaria
-    # botao para tomar agua
-    # cicla entre imagens de uma garrafa de agua
-    # form com botao para tomar uma medida de agua definida pelo usuario
+    """
+        contador de agua
+        meta diaria
+        botao para tomar agua
+        cicla entre imagens de uma garrafa de agua
+        form com botao para tomar uma medida de agua definida pelo usuario
+    """
+
     return error("TODO WATER")
-
-
-'''
-TABLES
-CREATE TABLE users(
-  id INT PRIMARY KEY NOT NULL,
-  username STRING NOT NULL,
-  hash STRING NOT NULL  
-);
-CREATE TABLE todo(
-  id INT PRIMARY KEY NOT NULL,
-  user_id INT NOT NULL,
-  todo_text STRING NOT NULL,
-  iscomplete INT NOT NULL,
-  FOREIGN KEY(user_id) REFERENCES users (id)
-);
-
-'''
