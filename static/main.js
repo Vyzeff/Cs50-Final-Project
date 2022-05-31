@@ -75,7 +75,25 @@ function todoChanges() {
     let elements = document.getElementsByClassName("todoElement")
 
     for (let y of elements) {
-        y.addEventListener('click', function () {y.classList.toggle("completed");})
+        y.addEventListener('click', function () {
+          y.classList.toggle("completed");
+
+          let id = this.dataset.id
+
+          var updateTodo = {
+            input: id
+          }
+
+         fetch("/todo", {
+           method: "PUT",
+           headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },
+        body: JSON.stringify(updateTodo)
+    })
+        })
+
+        
         y.addEventListener('contextmenu',  function (e) {
             e.preventDefault()
 
@@ -84,7 +102,7 @@ function todoChanges() {
                 input: id
             }
             fetch("/todo", {
-                method: "PUT",
+                method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                   },

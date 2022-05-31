@@ -25,7 +25,7 @@
             <ul id="todoList">
         {% for x in userTodos if x["id"] != "N/A" %}
                 <form>
-                    {% if x["isComplete"] == "1" %}
+                    {% if x["iscomplete"] == 1 %}
                     <li data-id="{{ x["id"] }}" id="{{ x["id"] }}"class="todoElement completed"><s>{{ x["todo_text"] }}</s></li>
                     {% else %}
                     <li data-id="{{ x["id"] }}" id="{{ x["id"] }}" class="todoElement">{{ x["todo_text"] }}</li>
@@ -33,7 +33,11 @@
                 </form>
         {% endfor %}
             </ul>
+            {% if notodo == "0" %}
+            <small class="mx-auto w-auto center"></small>
+            {% else %}
             <small class="mx-auto w-auto center">Left click to complete, right click to delete.</small>
+            {% endif %}
         </div>
     </div>
 

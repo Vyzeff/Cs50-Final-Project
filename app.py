@@ -54,10 +54,10 @@ class Todo(base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     todo_text = Column(String, nullable=False)
     date = Column(String, nullable=False)
-    is_complete = Column(Integer, nullable=False)
+    iscomplete = Column(Integer, nullable=False)
     
     def __repr__(self):
-        return f"Todo(id={self.id!r}, user_id={self.user_id!r}, todo_text={self.todo_text!r}, is_complete={self.is_complete!r})"
+        return f"Todo(id={self.id!r}, user_id={self.user_id!r}, todo_text={self.todo_text!r}, iscomplete={self.iscomplete!r})"
 
 # cria essas classes na db se não estiverem ja la.
 base.metadata.create_all(engine)
@@ -170,7 +170,7 @@ def clocks():
     # multiplos relogios ao mesmo tempo
     return error("TODO, CLOCK")
 
-@app.route("/todo", methods=["GET", "POST", "PUT"])
+@app.route("/todo", methods=["GET", "POST", "PUT", "DELETE"])
 def checklists():
     # pagina de checklists.
     # vai ser possivel criar uma ou mais checklists
@@ -179,7 +179,7 @@ def checklists():
     userTodos = sqlSession.query(Todo).filter_by(user_id=session["user_id"])
     
     if request.method == "GET":
-        if sqlSession.query(Todo).filter_by(user_id="3").first() == None:
+        if sqlSession.query(Todo).filter_by(user_id=session["user_id"]).first() == None:
             return render_template("todo.html", notodo="0")
         return render_template("todo.html", userTodos=userTodos, notodo="1")
     
@@ -187,13 +187,21 @@ def checklists():
         return redirect("/todos")
     
     if request.method == "PUT":
-        deleteTodo = request.get_json()
-        if deleteTodo != None or deleteTodo != 400:
-            return error("deu bom?")
+        updateId = request.get_json()
+        
+        updateTodo = sqlSession.query(Todo).filter_by(id=updateId["input"]).first()
+        updateTodo.iscomplete = 1
+        sqlSession.commit() 
+        
+        return make_response(jsonify({"message":"to-do completed"}))
 
 
-        
-        
+    if request.method == "DELETE":
+        deleteId = request.get_json()
+
+        deleteTodo = sqlSession.query(Todo).filter_by(id=deleteId["input"]).first()
+        sqlSession.delete(deleteTodo)
+        sqlSession.commit()
         
     return error("TODO TODOS")
 
@@ -211,7 +219,7 @@ def todos():
             return error("Please input valid text.")
     # create a session with the input values
         nowDate = str(datetime.now())
-        newTodo = Todo(user_id=session["user_id"], todo_text=formInput["input"], date=nowDate, is_complete=0)
+        newTodo = Todo(user_id=session["user_id"], todo_text=formInput["input"], date=nowDate, iscomplete=0)
         sqlSession.add(newTodo) 
         # commit values to database
         sqlSession.commit()
@@ -239,7 +247,7 @@ CREATE TABLE todo(
   id INT PRIMARY KEY NOT NULL,
   user_id INT NOT NULL,
   todo_text STRING NOT NULL,
-  is_complete INT NOT NULL,
+  iscomplete INT NOT NULL,
   FOREIGN KEY(user_id) REFERENCES users (id)
 );
 
