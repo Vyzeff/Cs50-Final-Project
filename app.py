@@ -3,9 +3,8 @@ from flask_session import Session
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
-from helper import login_verify, error
 
-from modules import modules
+from modules import modules, sqlChangeTodo, sqlCreateTodo, sqlCreateUser, sqlGetTodo, sqlGetUser
 # Flask
 ## Configures the app
 app = Flask(__name__)
@@ -23,7 +22,6 @@ app.register_blueprint(modules, url_prefix="/")
 
 success = False
 @app.route("/")
-@login_verify
 def index():
     """    
     TODO
@@ -54,17 +52,15 @@ def register():
         # lowercase username for consistensy
         userLow = request.form.get("username").lower()
         # username is already in use
-        if sqlSession.query(Users).filter_by(username=userLow).count() != 0:
+
+        if sqlGetUser(userLow, 2) != 0:
             return render_template("register.html", invalid="4")
         
         # Hash password with sha256 and salt 8
         passHash = generate_password_hash(request.form.get("password"), "sha256", 8)
         
-        # create a session with the input values
-        newUser = Users(username=userLow, hash=passHash)
-        sqlSession.add(newUser) 
-        # commit values to database
-        sqlSession.commit()
+        # create a new user with the input values
+        sqlCreateUser(userLow, passHash)
         success = True
         return render_template("login.html", success=1)
 
@@ -98,7 +94,8 @@ def login():
     
     # query in sql in the user table where username = input in username, grab first
     # returns a dict
-    userInput = sqlSession.query(Users).filter_by(username=(request.form.get("username").lower())).first()
+    
+    userInput = sqlGetUser(request.form.get("username").lower(), 1)
     
     # check if there was a username like that and if the password is correct by the hash
     if userInput == None or not check_password_hash(userInput.hash, request.form.get("password")):
@@ -145,10 +142,10 @@ def checklists():
     redireciona para outra rota para criar todos
     """
    
-    userTodos = sqlSession.query(Todo).filter_by(user_id=session["user_id"])
+    userTodos = sqlGetTodo(session["user_id"])
     
     if request.method == "GET":
-        if sqlSession.query(Todo).filter_by(user_id=session["user_id"]).first() == None:
+        if sqlGetTodo(session["user_id"], 1) == None:
             return render_template("todo.html", notodo="0")
         return render_template("todo.html", userTodos=userTodos, notodo="1")
     
@@ -158,19 +155,14 @@ def checklists():
     if request.method == "PUT":
         updateId = request.get_json()
         
-        updateTodo = sqlSession.query(Todo).filter_by(id=updateId["input"]).first()
-        updateTodo.iscomplete = 1
-        sqlSession.commit() 
-        
+        sqlChangeTodo(updateId, 0)
         return make_response(jsonify({"message":"to-do completed"}))
 
 
     if request.method == "DELETE":
         deleteId = request.get_json()
-
-        deleteTodo = sqlSession.query(Todo).filter_by(id=deleteId["input"]).first()
-        sqlSession.delete(deleteTodo)
-        sqlSession.commit()
+        
+        sqlChangeTodo(deleteId["input"], 1)
         
     return error("TODO TODOS")
 
@@ -191,10 +183,9 @@ def todos():
             return error("Please input valid text.")
     # create a session with the input values
         nowDate = str(datetime.now())
-        newTodo = Todo(user_id=session["user_id"], todo_text=formInput["input"], date=nowDate, iscomplete=0)
-        sqlSession.add(newTodo) 
-        # commit values to database
-        sqlSession.commit()
+        
+        sqlCreateTodo(session["user_id"], formInput["input"], nowDate)
+        
         return make_response(jsonify({"message":"to-do added"}))
                 
 
@@ -209,3 +200,6 @@ def waterBottle():
     """
 
     return error("TODO WATER")
+
+def error(message, code=400):
+    return render_template("error.html", message=message, code=code)
