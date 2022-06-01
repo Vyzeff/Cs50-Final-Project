@@ -1,15 +1,11 @@
-from flask import Flask, render_template, redirect, session, request, jsonify, make_response
+from flask import Flask, render_template, redirect, session, request, jsonify, make_response, Blueprint
 from flask_session import Session
-
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, MetaData
-from sqlalchemy_utils import database_exists, create_database
-from sqlalchemy.orm import declarative_base, sessionmaker
 
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from helper import login_verify, error
 
-
+from modules import modules
 # Flask
 ## Configures the app
 app = Flask(__name__)
@@ -23,48 +19,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite+pysqlite:///homebook.db"
 ## Defines flask session
 Session(app)
 
-
-#SQLAlchemy
-## Orm SQLAlchemy stuff
-metadata_obj = MetaData()
-base = declarative_base()
-
-## Creates engine for SQLAlchemy
-engine = create_engine("sqlite+pysqlite:///homebook.db", echo=True, future=True, connect_args={'check_same_thread': False})
-
-## If Database isn't present, create one
-if not database_exists(engine.url):
-    create_database(engine.url)
-
-
-## Define classes do sqlalchemy
-class Users(base):
-    __tablename__ = "users"
-    
-    id = Column(Integer, primary_key=True, nullable=False)
-    username = Column(String(20), nullable=False)
-    hash = Column(String, nullable=False)
-    
-    def __repr__(self):
-        return f"User(id={self.id!r}, username={self.username!r}, hash={self.hash!r})"
-class Todo(base):
-    __tablename__ = "todo"
-    
-    id = Column(Integer, primary_key=True, nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    todo_text = Column(String, nullable=False)
-    date = Column(String, nullable=False)
-    iscomplete = Column(Integer, nullable=False)
-    
-    def __repr__(self):
-        return f"Todo(id={self.id!r}, user_id={self.user_id!r}, todo_text={self.todo_text!r}, iscomplete={self.iscomplete!r})"
-
-# cria essas classes na db se não estiverem ja la.
-base.metadata.create_all(engine)
-
-sqlASession = sessionmaker(bind=engine)
-sqlSession = sqlASession()
-
+app.register_blueprint(modules, url_prefix="/")
 
 success = False
 @app.route("/")
