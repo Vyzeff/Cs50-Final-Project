@@ -7,14 +7,6 @@
 {% block main%}
     <div class="center">
         <form action="/login" method="post">
-            {% if invalid %}
-                <div class="alert alert-danger alert-dismissible fade show mx-auto w-auto center" role="alert">
-                    <strong>Invalid login!</strong> Please check your username/password.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endif %}
             {% if success %}
             <div class="alert alert-warning fade show mx-auto w-auto center" role="alert">
                 <strong>User register was sucessful!</strong> Please login.
