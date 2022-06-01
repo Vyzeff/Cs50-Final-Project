@@ -131,7 +131,9 @@ function todoChanges() {
 
         todoElement.remove()
     })*/
-
+if (window.location.pathname=='/notebook') {
+  console.log("eu acho que foi")
+}
 
 const input = document.getElementById("todoInput");
 const form = document.getElementById("todoForm")

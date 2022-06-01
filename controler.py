@@ -6,6 +6,7 @@ from helpers import error
 from models import models
 from todo import todo, todoCreate, todoUpdate, todoVerify
 from user import user, login, logout, register
+from notes import notes
 
 # Flask
 ## Configures the app
@@ -24,7 +25,7 @@ Session(app)
 user.register_blueprint(models, url_prefix="")
 app.register_blueprint(user, url_prefix="")
 app.register_blueprint(todo, url_prefix="")
-
+app.register_blueprint(notes, url_prefix="")
 
 @app.route("/")
 def index():
@@ -104,7 +105,8 @@ def notebook():
     will show all notes
     notas vao ter titulo, data e corpo
     """
-
+    if request.method == "GET":
+        return render_template("notebook.html")
     return error("TODO, NOTEBOOK")
 
 @app.route("/clock")
