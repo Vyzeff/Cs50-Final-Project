@@ -1,3 +1,4 @@
+from re import L
 from flask import Flask, render_template, session, request
 from flask_session import Session
 
@@ -27,7 +28,6 @@ app.register_blueprint(user, url_prefix="")
 app.register_blueprint(todo, url_prefix="")
 
 
-success = False
 @app.route("/")
 def index():
     """    
@@ -42,18 +42,49 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def registerRoute():
-    thisMethod = request.method
-    register(thisMethod)
+    
+    if request.method == "GET":
+        return render_template("register.html")
+    
+    if request.method == "POST":
+        if not request.form.get("username"):
+            return render_template("register.html", invalid="1")
+        if not request.form.get("password"):
+            return render_template("register.html", invalid="2")
+        if request.form.get("password") != request.form.get("confirm"):
+            return render_template("register.html", invalid="3")
+        username = request.form.get("username")
+        password = request.form.get("password")
+        register(username, password)
+        return render_template("login.html", success=1)
+
 
 
 @app.route("/login", methods=["GET", "POST"])
 def loginRoute():
-    thisMethod = request.method
-    login(thisMethod)
+    
+    session.clear()
+    
+    if request.method == "GET":
+        return render_template("login.html")
+    if request.method == "POST":
+        if not request.form.get("username"):
+                return render_template("login.html", invalid="1")
+        if not request.form.get("password"):
+            return render_template("login.html", invalid="1")
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if login(username, password) == False:
+            return render_template("invalid.html")
+        return render_template("index.html")
 
 @app.route("/logout")
 def logoutRoute():
-    logout()
+    if request.method == "GET":
+        logout()
+        return render_template("index.html")
+    return error("You should not be here, please retry")
 
 
 @app.route("/notebook")

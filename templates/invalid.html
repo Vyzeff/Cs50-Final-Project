@@ -1,0 +1,14 @@
+{% extends "layout.html"%}
+
+{% block title%}
+    Sorry!
+{% endblock %}
+
+{% block main%}
+    <div class="center">
+        <form action="/login" method="get">
+                <div class="alert alert-danger alert-dismissible fade show mx-auto w-auto center" role="alert">
+                    <strong>Invalid login!</strong> Please check your username/password.
+                    <button type="submit" class="close" data-dismiss="alert" aria-label="Close">Retry</button>
+                </div>
+{% endblock %}
