@@ -3,8 +3,8 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, MetaD
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-
-modules = Blueprint("modules", __name__, static_folder="static", template_folder="templates")
+# creates the module that can be imported
+models = Blueprint("models", __name__, static_folder="static", template_folder="templates")
 
 ## Creates engine for SQLAlchemy
 engine = create_engine("sqlite+pysqlite:///homebook.db", echo=True, future=True, connect_args={'check_same_thread': False})
@@ -19,14 +19,10 @@ base = declarative_base()
 if not database_exists(engine.url):
     create_database(engine.url)
 
-
-
-base.metadata.create_all(engine)
-
-
 sqlASession = sessionmaker(bind=engine)
 sqlSession = sqlASession()
 
+# Defines the tables
 class Users(base):
     __tablename__ = "users"
     
@@ -48,8 +44,14 @@ class Todo(base):
     def __repr__(self):
         return f"Todo(id={self.id!r}, user_id={self.user_id!r}, todo_text={self.todo_text!r}, iscomplete={self.iscomplete!r})"
 
-def sqlGetUser (user, action=0):
-    
+# if tables not in db, create then
+base.metadata.create_all(engine)
+
+
+def GetUser (user, action=0):
+    """
+    Queries the database for a username, and does an action. 0 is none, 1 is grab first, 2 is count.
+    """
     if action == 0:
         query = sqlSession.query(Users).filter_by(username=user)
     elif action == 1:
@@ -58,13 +60,13 @@ def sqlGetUser (user, action=0):
         query = sqlSession.query(Users).filter_by(username=user).count()
     return query
 
-def sqlCreateUser(username, hash):
+def CreateUser(username, hash):
     
     newUser = Users(username=username, hash=hash)
     sqlSession.add(newUser)
     sqlSession.commit()
 
-def sqlGetTodo (todoId, action=0):
+def GetTodo (todoId, action=0):
     
     if action == 0:
         query = sqlSession.query(Todo).filter_by(user_id=todoId)
@@ -74,13 +76,13 @@ def sqlGetTodo (todoId, action=0):
         query = sqlSession.query(Todo).filter_by(user_id=todoId).count()
     return query
 
-def sqlCreateTodo(id, text, nowDate):
+def CreateTodo(id, text, nowDate):
     newTodo = Todo(user_id=id, todo_text=text, date=nowDate, iscomplete=0)
     sqlSession.add(newTodo) 
     # commit values to database
     sqlSession.commit()
     
-def sqlChangeTodo(todoId, action):
+def ChangeTodo(todoId, action):
     
     todoChange = sqlSession.query(Todo).filter_by(id=todoId).first()
     if action == 0:

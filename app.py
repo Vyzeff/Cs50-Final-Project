@@ -4,7 +4,8 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-from modules import modules, sqlChangeTodo, sqlCreateTodo, sqlCreateUser, sqlGetTodo, sqlGetUser
+from models import models, GetTodo, GetUser, ChangeTodo, CreateTodo, CreateUser
+
 # Flask
 ## Configures the app
 app = Flask(__name__)
@@ -18,7 +19,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite+pysqlite:///homebook.db"
 ## Defines flask session
 Session(app)
 
-app.register_blueprint(modules, url_prefix="/")
+app.register_blueprint(models, url_prefix="/")
 
 success = False
 @app.route("/")
@@ -53,14 +54,14 @@ def register():
         userLow = request.form.get("username").lower()
         # username is already in use
 
-        if sqlGetUser(userLow, 2) != 0:
+        if GetUser(userLow, 2) != 0:
             return render_template("register.html", invalid="4")
         
         # Hash password with sha256 and salt 8
         passHash = generate_password_hash(request.form.get("password"), "sha256", 8)
         
         # create a new user with the input values
-        sqlCreateUser(userLow, passHash)
+        CreateUser(userLow, passHash)
         success = True
         return render_template("login.html", success=1)
 
@@ -95,7 +96,7 @@ def login():
     # query in sql in the user table where username = input in username, grab first
     # returns a dict
     
-    userInput = sqlGetUser(request.form.get("username").lower(), 1)
+    userInput = GetUser(request.form.get("username").lower(), 1)
     
     # check if there was a username like that and if the password is correct by the hash
     if userInput == None or not check_password_hash(userInput.hash, request.form.get("password")):
@@ -142,10 +143,10 @@ def checklists():
     redireciona para outra rota para criar todos
     """
    
-    userTodos = sqlGetTodo(session["user_id"])
+    userTodos = GetTodo(session["user_id"])
     
     if request.method == "GET":
-        if sqlGetTodo(session["user_id"], 1) == None:
+        if GetTodo(session["user_id"], 1) == None:
             return render_template("todo.html", notodo="0")
         return render_template("todo.html", userTodos=userTodos, notodo="1")
     
@@ -155,14 +156,14 @@ def checklists():
     if request.method == "PUT":
         updateId = request.get_json()
         
-        sqlChangeTodo(updateId, 0)
+        ChangeTodo(updateId, 0)
         return make_response(jsonify({"message":"to-do completed"}))
 
 
     if request.method == "DELETE":
         deleteId = request.get_json()
         
-        sqlChangeTodo(deleteId["input"], 1)
+        ChangeTodo(deleteId["input"], 1)
         
     return error("TODO TODOS")
 
@@ -184,7 +185,7 @@ def todos():
     # create a session with the input values
         nowDate = str(datetime.now())
         
-        sqlCreateTodo(session["user_id"], formInput["input"], nowDate)
+        CreateTodo(session["user_id"], formInput["input"], nowDate)
         
         return make_response(jsonify({"message":"to-do added"}))
                 
