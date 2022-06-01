@@ -61,12 +61,14 @@ def GetUser (user, action=0):
     return query
 
 def CreateUser(username, hash):
+    """Creates users with username and password"""
     
     newUser = Users(username=username, hash=hash)
     sqlSession.add(newUser)
     sqlSession.commit()
 
 def GetTodo (todoId, action=0):
+    """Queries todo table for a particular id and depending on action."""
     
     if action == 0:
         query = sqlSession.query(Todo).filter_by(user_id=todoId)
@@ -77,16 +79,21 @@ def GetTodo (todoId, action=0):
     return query
 
 def CreateTodo(id, text, nowDate):
+    """Creates a new todo based on user id, input text and date."""
     newTodo = Todo(user_id=id, todo_text=text, date=nowDate, iscomplete=0)
     sqlSession.add(newTodo) 
     # commit values to database
     sqlSession.commit()
     
 def ChangeTodo(todoId, action):
+    """Either updates the completed status from a todo or deletes it."""
     
     todoChange = sqlSession.query(Todo).filter_by(id=todoId).first()
     if action == 0:
-        todoChange.iscomplete = 1
+        if todoChange.iscomplete == 0:   
+            todoChange.iscomplete = 1
+        else:
+            todoChange.iscomplete = 0
         sqlSession.commit()
     if action == 1:
         sqlSession.delete(todoChange)

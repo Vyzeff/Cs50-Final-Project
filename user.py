@@ -12,7 +12,6 @@ def register(user, password):
     """
     will ask for an unused username
     will ask for a password at least 8 digits long, together with 1 number and 1 symbol
-    maybe implement captcha???
     must have invalid when input user already exists in db
     """
     # lowercase username for consistensy
@@ -46,8 +45,6 @@ def login(user, password):
     # remember the user id
     session["user_id"] = userInput.id
     
-    return render_template("index.html")
-
 def logout():
     """
     forgets user id and 'logs out'
