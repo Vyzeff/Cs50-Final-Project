@@ -1,8 +1,7 @@
-from flask import Blueprint, request, render_template, redirect, session
+from flask import Blueprint, render_template, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_session import Session
 
-from models import models, CreateUser, GetUser
+from models import CreateUser, GetUser
 
 user = Blueprint("user", __name__, static_folder="static", template_folder="templates")
 

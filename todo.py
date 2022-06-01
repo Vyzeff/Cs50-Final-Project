@@ -1,5 +1,5 @@
-from flask import Blueprint, request, render_template, redirect, make_response, jsonify, session
-from models import models, ChangeTodo, CreateTodo, GetTodo
+from flask import Blueprint, session
+from models import ChangeTodo, CreateTodo, GetTodo
 
 
 from datetime import datetime
